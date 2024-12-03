@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resizable Canvas Graph</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    #canvas-container {
+      width: 100%;
+      height: 100%;
+      overflow: auto; /* Enable scrolling */
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    #controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    #size-slider {
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <label for="size-slider">Resize Canvas:</label>
+    <input id="size-slider" type="range" min="0.5" max="2" step="0.1" value="0.7">
+    <span id="scale-display">0.7x</span>
+  </div>
+  <div id="canvas-container">
+    <canvas id="graphCanvas" width="600" height="400"></canvas>
+  </div>
+
+  <script>
+    const jsonFilePath = 'road.json';
+
+    let graphData = null; // Store the graph data globally
+    /* Default scale factor */
+    const defaultScale = 0.7; 
+    let currentScale = defaultScale; 
+
+    // Load JSON data and draw the graph
+    fetch(jsonFilePath)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Failed to load JSON file: ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        graphData = data; // Save the graph data for redraws
+        adjustCanvasToFitGraph(data);
+        drawGraph(data);
+      })
+      .catch(error => {
+        console.error('Error loading JSON file:', error);
+      });
+
+    function adjustCanvasToFitGraph(data) {
+      const canvas = document.getElementById('graphCanvas');
+      const ctx = canvas.getContext('2d');
+
+      // Calculate the bounding box of the graph (min/max x and y)
+      const padding = 50; // Add some padding around the graph
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+      data.nodes.forEach(node => {
+        minX = Math.min(minX, node.x);
+        minY = Math.min(minY, node.y);
+        maxX = Math.max(maxX, node.x);
+        maxY = Math.max(maxY, node.y);
+      });
+
+      // Set canvas size to fit the graph + padding (scaled by default scale)
+      canvas.width = (maxX - minX + 2 * padding) * currentScale;
+      canvas.height = (maxY - minY + 2 * padding) * currentScale;
+
+      // Scale the graph data to fit within the canvas
+      ctx.translate(-minX + padding, -minY + padding);
+      ctx.scale(currentScale, currentScale);
+    }
+
+    function drawGraph(data) {
+      const canvas = document.getElementById('graphCanvas');
+      const ctx = canvas.getContext('2d');
+
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw edges (lines)
+      data.lines.forEach(([startIdx, endIdx]) => {
+        const startNode = data.nodes[startIdx];
+        const endNode = data.nodes[endIdx];
+
+        ctx.beginPath();
+        ctx.moveTo(startNode.x, startNode.y);
+        ctx.lineTo(endNode.x, endNode.y);
+        ctx.strokeStyle = '#ffdab9'; // Line color
+        ctx.lineWidth = 2 / currentScale; // Adjust line width to avoid scaling issues
+        ctx.stroke();
+      });
+
+      // Determine connected nodes
+      const connectedNodes = new Set(data.lines.flat()); // Collect all node indices that are connected
+
+      // Draw nodes (points)
+      data.nodes.forEach((node, index) => {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, 5 / currentScale, 0, Math.PI * 2); // Adjust radius to avoid scaling issues
+        
+        // Node color based on whether it is connected
+        ctx.fillStyle = connectedNodes.has(index) ? '#ff5733' : '#add8e6'; // Orange if connected, light blue if not
+        ctx.fill();
+
+        ctx.strokeStyle = '#333'; // Border color
+        ctx.lineWidth = 1 / currentScale;
+        ctx.stroke();
+      });
+    }
+
+    // Handle canvas resizing via the slider
+    document.getElementById('size-slider').addEventListener('input', (event) => {
+      currentScale = parseFloat(event.target.value);
+      document.getElementById('scale-display').textContent = `${currentScale.toFixed(1)}x`;
+
+      // Redraw the canvas with the new scale
+      if (graphData) {
+        adjustCanvasToFitGraph(graphData);
+        drawGraph(graphData);
+      }
+    });
+  </script>
+</body>
+</html>

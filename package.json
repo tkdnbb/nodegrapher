@@ -1,0 +1,59 @@
+{
+  "name": "nodegrapher",
+  "version": "0.0.5",
+  "description": "Transform images into spatial graph data with Node.js and TypeScript",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "extract": "tsx src/cli.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkdnbb/nodegrapher.git"
+  },
+  "keywords": [
+    "image-processing",
+    "graph-extraction",
+    "spatial-data",
+    "typescript",
+    "computer-vision",
+    "node",
+    "opencv"
+  ],
+  "author": "tkdnbb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tkdnbb/nodegrapher/issues"
+  },
+  "homepage": "https://github.com/tkdnbb/nodegrapher#readme",
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.1",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
+    "eslint": "^8.57.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "@techstark/opencv-js": "^4.7.0-release.1",
+    "@tensorflow/tfjs-node": "^4.22.0",
+    "@turf/turf": "^7.1.0",
+    "canvas": "^2.11.2",
+    "opencv-wasm": "^4.3.0-10",
+    "tesseract.js": "^5.1.1"
+  }
+}
