@@ -43,7 +43,7 @@ npm run extract -- --image_path img/example.jpg --output_path graph.json [--visu
 
 2. Visualize graph structure from an image:
 ```bash
-npm run visualize -- --image_path img/example.jpg [--output_path visualization.jpg]
+npm run visualize -- --image_path img/example.jpg [--output_path visualization.jpg] [--distance_threshold <number>] [--max_contain <number>]
 ```
 
 **Extract Command Arguments:**
@@ -55,6 +55,8 @@ npm run visualize -- --image_path img/example.jpg [--output_path visualization.j
 **Visualize Command Arguments:**
 - `--image_path`: Path to the input image file
 - `--output_path` (optional): Path where the visualization will be saved. If not provided, saves next to input with '_visualized' suffix
+- `--distance_threshold` (optional): Distance threshold for node connections (default: 10)
+- `--max_contain` (optional): Maximum containment value for graph processing (default: 1)
 
 ### API Reference
 
