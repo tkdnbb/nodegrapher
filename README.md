@@ -43,7 +43,7 @@ The package provides two main CLI commands:
 
 1. Extract graph data from an image:
 ```bash
-npm run extract -- --image_path img/example.jpg --output_path graph.json [--max_contain <number>]
+npm run extract -- --image_path img/example.jpg --output_path graph.json [--max_contain <number>] [--num_x <number>]
 ```
 
 2. Visualize graph structure from an image:
@@ -55,6 +55,7 @@ npm run visualize -- --image_path img/example.jpg [--output_path visualization.j
 - `--image_path`: Path to the input image file
 - `--output_path`: Path where the output JSON file will be saved
 - `--max_contain` (optional): Maximum containment value for graph processing (default: 1)
+- `--num_x` (optional): Number of nodes to generate in the x direction for the road graph (default: 15)
 
 **Visualize Command Arguments:**
 - `--image_path`: Path to the input image file

@@ -56,6 +56,7 @@ async function main() {
       let imagePath = '';
       let outputPath = '';
       let maxContain = 1;
+      let numX = 15;  // default value
 
       // Parse command line arguments
       for (let i = 0; i < args.length; i++) {
@@ -68,16 +69,19 @@ async function main() {
         } else if (args[i] === '--max_contain' && i + 1 < args.length) {
           maxContain = parseInt(args[i + 1], 10);
           i++;
+        } else if (args[i] === '--num_x' && i + 1 < args.length) {
+          numX = parseInt(args[i + 1], 10);
+          i++;
         }
       }
 
       // Check required arguments
       if (!imagePath || !outputPath) {
-        console.error('Usage: npm run extract -- --image_path <path> --output_path <path> [--max_contain <number>]');
+        console.error('Usage: npm run extract -- --image_path <path> --output_path <path> [--max_contain <number>] [--num_x <number>]');
         process.exit(1);
       }
 
-      await processImageToGraph(imagePath, outputPath, maxContain);
+      await processImageToGraph(imagePath, outputPath, maxContain, numX);
     }
   } catch (error: any) {
     console.error('Error:', error.message);
