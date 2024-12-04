@@ -34,17 +34,27 @@ const graphData = await processImageToGraph(
 
 ### CLI Usage
 
-The package also provides a CLI interface:
+The package provides two main CLI commands:
 
+1. Extract graph data from an image:
 ```bash
 npm run extract -- --image_path img/example.jpg --output_path graph.json [--visualize] [--max_contain <number>]
 ```
 
-**CLI Arguments:**
+2. Visualize graph structure from an image:
+```bash
+npm run visualize -- --image_path img/example.jpg [--output_path visualization.jpg]
+```
+
+**Extract Command Arguments:**
 - `--image_path`: Path to the input image file
 - `--output_path`: Path where the output JSON file will be saved
 - `--visualize` (optional): Enable graph visualization
 - `--max_contain` (optional): Maximum containment value for graph processing (default: 1)
+
+**Visualize Command Arguments:**
+- `--image_path`: Path to the input image file
+- `--output_path` (optional): Path where the visualization will be saved. If not provided, saves next to input with '_visualized' suffix
 
 ### API Reference
 

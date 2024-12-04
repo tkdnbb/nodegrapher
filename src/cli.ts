@@ -1,5 +1,6 @@
-import { processImageToGraph } from './utils/extractGraph.js';
+import { extractGraphFromImage, processImageToGraph } from './utils/extractGraph.js';
 import { cv } from 'opencv-wasm'
+import { visualizeGraph } from './utils/graphUtils.js';
 
 /** Wait for OpenCV to load */
 async function waitForOpenCV(): Promise<void> {
@@ -10,44 +11,75 @@ async function waitForOpenCV(): Promise<void> {
   });
 }
 
-async function main(): Promise<void> {
+async function main() {
   try {
     await waitForOpenCV();
-    console.log('OpenCV.js initialized');
-
     const args = process.argv.slice(2);
-    let imagePath = '';
-    let outputPath = '';
-    let visualize = false;
-    let maxContain = 1;
+    const command = args[0];
 
-    // Parse command line arguments
-    for (let i = 0; i < args.length; i++) {
-      if (args[i] === '--image_path' && i + 1 < args.length) {
-        imagePath = args[i + 1];
-        i++;
-      } else if (args[i] === '--output_path' && i + 1 < args.length) {
-        outputPath = args[i + 1];
-        i++;
-      } else if (args[i] === '--visualize') {
-        visualize = true;
-      } else if (args[i] === '--max_contain' && i + 1 < args.length) {
-        maxContain = parseInt(args[i + 1], 10);
-        i++;
+    if (command === 'visualize') {
+      // Handle visualization command
+      const remainingArgs = args.slice(1);
+      let imagePath = '';
+      let outputPath = '';
+
+      // Parse command line arguments
+      for (let i = 0; i < remainingArgs.length; i++) {
+        if (remainingArgs[i] === '--image_path' && i + 1 < remainingArgs.length) {
+          imagePath = remainingArgs[i + 1];
+          i++;
+        } else if (remainingArgs[i] === '--output_path' && i + 1 < remainingArgs.length) {
+          outputPath = remainingArgs[i + 1];
+          i++;
+        }
       }
-    }
 
-    // Validate arguments
-    if (!imagePath || !outputPath) {
-      console.error('Usage: npm run extract -- --image_path <path> --output_path <path> [--visualize] [--max_contain <number>]');
-      process.exit(1);
-    }
+      if (!imagePath) {
+        console.error('Usage: npm run visualize -- --image_path <path> [--output_path <path>]');
+        process.exit(1);
+      }
 
-    await processImageToGraph(imagePath, outputPath, maxContain, visualize);
+      // Extract graph from image and visualize it
+      const distanceThreshold = 10;
+      const maxContainCount = 1;
+      const graph = await extractGraphFromImage(imagePath, distanceThreshold, maxContainCount);
+      const visualizedPath = await visualizeGraph(imagePath, graph, outputPath);
+      console.log(`Graph visualization saved to: ${visualizedPath}`);
+    } else {
+      // Handle extract command (default)
+      let imagePath = '';
+      let outputPath = '';
+      let visualize = false;
+      let maxContain = 1;
+
+      // Parse command line arguments
+      for (let i = 0; i < args.length; i++) {
+        if (args[i] === '--image_path' && i + 1 < args.length) {
+          imagePath = args[i + 1];
+          i++;
+        } else if (args[i] === '--output_path' && i + 1 < args.length) {
+          outputPath = args[i + 1];
+          i++;
+        } else if (args[i] === '--visualize') {
+          visualize = true;
+        } else if (args[i] === '--max_contain' && i + 1 < args.length) {
+          maxContain = parseInt(args[i + 1], 10);
+          i++;
+        }
+      }
+
+      // Check required arguments
+      if (!imagePath || !outputPath) {
+        console.error('Usage: npm run extract -- --image_path <path> --output_path <path> [--visualize] [--max_contain <number>]');
+        process.exit(1);
+      }
+
+      await processImageToGraph(imagePath, outputPath, maxContain, visualize);
+    }
   } catch (error: any) {
     console.error('Error:', error.message);
     process.exit(1);
   }
 }
 
-main().catch(console.error);
+main();
