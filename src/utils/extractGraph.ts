@@ -2,9 +2,7 @@ import { cv } from 'opencv-wasm';
 import { Point2D } from './types.js';
 import { mergeClosePoints } from './pointUtils.js';
 import { deduplicateLines, Edge, filterNewNodes, Line } from './filters.js';
-import { genLines } from './lineUtils.js';
 import { genNodes } from './roadGen.js';
-import { saveJson } from './saveJson.js';
 import { createCanvas, loadImage } from 'canvas';
 
 // Define OpenCV types
@@ -21,7 +19,7 @@ export async function waitForOpenCV(): Promise<void> {
 
 type Point2DTuple = [number, number];
 
-interface GraphData {
+export interface GraphData {
   nodesList?: Point2D[];
   nodes: Point2D[];
   lines: [number, number][];
@@ -163,116 +161,5 @@ export async function extractGraphFromImage(
     if (gray && gray !== image) gray.delete();
     if (edgesMat) edgesMat.delete();
     if (linesMat) linesMat.delete();
-  }
-}
-
-/**
- * Processes an image and extracts graph data from it. This function performs the following steps:
- * 1. Extracts a graph structure from the provided image
- * 2. Saves the graph data to a JSON file
- *
- * @param imagePath Path to the input image file to process
- * @param outputPath Path where the output JSON file will be saved
- * @param maxContainCount Maximum number of polygons that can contain the point (default: 1)
- * @param numX Number of nodes to generate in the x direction for the road graph (default: 15)
- * @returns A promise that resolves to the graph data
- * @throws Error If the image processing fails for any reason
- * 
- * @example
- * ```typescript
- * try {
- *   const graphData = await processImageToGraph(
- *     'input.jpg',
- *     'output.json',
- *     1,  // maxContainCount
- *     15  // numX: number of nodes in x direction
- *   );
- *   console.log('Graph data:', graphData);
- * } catch (error) {
- *   console.error('Failed to process image:', error);
- * }
- * ```
- */
-export async function processImageToGraph(
-  imagePath: string,
-  outputPath: string,
-  maxContainCount: number = 1,
-  numX: number = 15,
-): Promise<GraphData> {
-  try {
-    // Extract graph from image
-    const graph = await extractGraphFromImage(imagePath, 10, maxContainCount, numX);
-    // Save main graph
-    const graphWithoutNodesList = { ...graph };
-    delete graphWithoutNodesList.nodesList;
-    saveJson(graphWithoutNodesList, outputPath);
-    console.log(`Graph data saved to: ${outputPath}`);
-    return graph;
-  } catch (error) {
-    throw new Error(`Failed to process image to graph: ${error}`);
-  }
-}
-
-/**
- * Generates and saves a road graph based on the provided graph data. This function:
- * 1. Generates new nodes based on the input graph's nodesList
- * 2. Filters the new nodes based on the original graph's structure
- * 3. Generates lines connecting the filtered nodes
- * 4. Saves the resulting road graph to a JSON file
- *
- * @param imagePath Path to the input image file to process
- * @param outputPath Path where the road graph JSON file will be saved (default: "road.json")
- * @param maxContainCount Maximum number of polygons that can contain the point (default: 1)
- * @param numX Number of nodes to generate in the x direction for the road graph (default: 15)
- * @returns A promise that resolves to the road graph data if successful, or undefined if the node list is empty
- * @throws Error If the road graph generation fails for any reason
- * 
- * @example
- * ```typescript
- * try {
- *   // Using default output path ("road.json")
- *   const roadGraph = await saveRoad('input.jpg');
- *   
- *   // Or specify a custom output path
- *   const roadGraph2 = await saveRoad(
- *     'input.jpg',
- *     'custom_road.json',
- *     1,  // maxContainCount
- *     15  // numX: number of nodes in x direction
- *   );
- *   console.log('Road graph data:', roadGraph);
- * } catch (error) {
- *   console.error('Failed to generate road graph:', error);
- * }
- * ```
- */
-export async function saveRoad(
-  imagePath: string,
-  outputPath: string = "road.json",
-  maxContainCount: number = 1,
-  numX: number = 15,
-): Promise<GraphData | undefined> {
-  try {
-    // Extract graph from image
-    const graph = await extractGraphFromImage(imagePath, 10, maxContainCount, numX);
-    
-    // Generate and save road graph
-    if (!graph.nodesList) return;
-    const newNodes = genNodes(graph.nodesList, numX);
-    const filteredNewNodes = filterNewNodes(
-      newNodes,
-      graph.nodesList,
-      graph.lines,
-      maxContainCount
-    );
-    const roadGraph = {
-      nodes: filteredNewNodes,
-      lines: genLines(filteredNewNodes)
-    };
-    saveJson(roadGraph, outputPath);
-    console.log(`Road graph data saved to: ${outputPath}`);
-    return roadGraph;
-  } catch (error) {
-    throw new Error(`Failed to generate road graph: ${error}`);
   }
 }

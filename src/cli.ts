@@ -1,8 +1,9 @@
-import { extractGraphFromImage, processImageToGraph, saveRoad } from './utils/extractGraph.js';
+import { extractGraphFromImage } from './utils/extractGraph.js';
 import { cv } from 'opencv-wasm';
 import { visualizeGraph } from './utils/graphUtils.js';
 import * as path from 'path';
 import { removeTextFromImage } from './utils/textRemoval.js';
+import { processImageToGraph, saveRoad } from './processImage.js';
 
 /** Wait for OpenCV to load */
 async function waitForOpenCV(): Promise<void> {

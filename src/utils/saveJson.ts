@@ -1,21 +1,18 @@
 import * as fs from 'fs';
-
-interface Point2D {
-  x: number;
-  y: number;
-}
-
-interface GraphData {
-  nodes: Point2D[];
-  lines: [number, number][];
-}
+import { GraphData } from './types.js';
 
 /**
  * Save the graph data to a JSON file.
  * 
- * @param data - The graph data containing nodes and their connections
  * @param outputPath - Path to the output JSON file
+ * @param data - The graph data containing nodes and their connections
  */
-export function saveJson(data: GraphData, outputPath: string): void {
-  fs.writeFileSync(outputPath, JSON.stringify(data, null, 4));
+export async function saveJson(outputPath: string, data: GraphData): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const jsonData = JSON.stringify(data, null, 2);
+    fs.writeFile(outputPath, jsonData, 'utf8', (err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
 }

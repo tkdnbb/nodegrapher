@@ -1,6 +1,6 @@
 {
   "name": "nodegrapher",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Transform images into spatial graph data with Node.js and TypeScript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
