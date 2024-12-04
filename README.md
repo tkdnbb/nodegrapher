@@ -27,9 +27,14 @@ import { processImageToGraph } from 'nodegrapher';
 const graphData = await processImageToGraph(
   'path/to/image.jpg',
   'output.json',
-  1,  // maxContainCount: controls the maximum containment count for graph processing
-  true // visualize: enables graph visualization
+  1  // maxContainCount: controls the maximum containment count for graph processing
 );
+
+// To visualize a graph from an image
+import { extractGraphFromImage, visualizeGraph } from 'nodegrapher';
+
+const graph = await extractGraphFromImage('path/to/image.jpg', 10, 1);
+await visualizeGraph('path/to/image.jpg', graph, 'visualization.jpg');
 ```
 
 ### CLI Usage
@@ -38,7 +43,7 @@ The package provides two main CLI commands:
 
 1. Extract graph data from an image:
 ```bash
-npm run extract -- --image_path img/example.jpg --output_path graph.json [--visualize] [--max_contain <number>]
+npm run extract -- --image_path img/example.jpg --output_path graph.json [--max_contain <number>]
 ```
 
 2. Visualize graph structure from an image:
@@ -49,7 +54,6 @@ npm run visualize -- --image_path img/example.jpg [--output_path visualization.j
 **Extract Command Arguments:**
 - `--image_path`: Path to the input image file
 - `--output_path`: Path where the output JSON file will be saved
-- `--visualize` (optional): Enable graph visualization
 - `--max_contain` (optional): Maximum containment value for graph processing (default: 1)
 
 **Visualize Command Arguments:**
@@ -60,15 +64,14 @@ npm run visualize -- --image_path img/example.jpg [--output_path visualization.j
 
 ### API Reference
 
-#### processImageToGraph(imagePath, outputPath, maxContainCount?, visualize?)
+#### processImageToGraph(imagePath, outputPath, maxContainCount?)
 
 Processes an image and extracts graph data from it.
 
 **Parameters:**
 - `imagePath` (string): Path to the input image file
 - `outputPath` (string): Path where the output JSON file will be saved
-- `maxContainCount` (number, optional): Maximum containment value for graph processing
-- `visualize` (boolean, optional): Whether to visualize the extracted graph. Defaults to false
+- `maxContainCount` (number, optional): Maximum containment value for graph processing. Defaults to 1
 
 **Returns:**
 - Promise<GraphData | undefined>: Returns a promise that resolves to the graph data or undefined if processing fails

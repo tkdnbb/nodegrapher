@@ -5,7 +5,6 @@ import { deduplicateLines, Edge, filterNewNodes, Line } from './filters.js';
 import { genLines } from './lineUtils.js';
 import { genNodes } from './roadGen.js';
 import { saveJson } from './saveJson.js';
-import { visualizeGraph } from './graphUtils.js';
 import { createCanvas, loadImage } from 'canvas';
 
 // Define OpenCV types
@@ -169,13 +168,11 @@ export async function extractGraphFromImage(
  * Processes an image and extracts graph data from it. This function performs the following steps:
  * 1. Extracts a graph structure from the provided image
  * 2. Saves the graph data to a JSON file
- * 3. Optionally visualizes the extracted graph
- * 4. Generates and saves an additional road graph based on the extracted data
+ * 3. Generates and saves an additional road graph based on the extracted data
  *
  * @param {string} imagePath - The path to the input image file to process
  * @param {string} outputPath - The path where the output JSON file will be saved
  * @param maxContainCount - Maximum number of polygons that can contain the point (default: 1)
- * @param {boolean} [visualize=false] - Whether to visualize the extracted graph
  * @returns {Promise<GraphData | undefined>} A promise that resolves to the road graph data if successful,
  *                                         or undefined if the node list is empty
  * @throws {Error} If the image processing fails for any reason
@@ -186,7 +183,7 @@ export async function extractGraphFromImage(
  *   const graphData = await processImageToGraph(
  *     'input.jpg',
  *     'output.json',
- *     true
+ *     1  // maxContainCount
  *   );
  *   console.log('Graph data:', graphData);
  * } catch (error) {
@@ -198,7 +195,6 @@ export async function processImageToGraph(
   imagePath: string,
   outputPath: string,
   maxContainCount = 1,
-  visualize: boolean = false,
 ): Promise<GraphData | undefined> {
   try {
     // Extract graph from image
@@ -208,12 +204,6 @@ export async function processImageToGraph(
     delete graphWithoutNodesList.nodesList;
     saveJson(graphWithoutNodesList, outputPath);
     console.log(`Graph data saved to: ${outputPath}`);
-
-    // Optionally visualize the graph
-    if (visualize) {
-      console.log('Visualizing graph...');
-      await visualizeGraph(imagePath, graphWithoutNodesList);
-    }
 
     // Generate and save road graph
     if (!graph.nodesList) return;

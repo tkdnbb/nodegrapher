@@ -66,8 +66,6 @@ async function main() {
         } else if (args[i] === '--output_path' && i + 1 < args.length) {
           outputPath = args[i + 1];
           i++;
-        } else if (args[i] === '--visualize') {
-          visualize = true;
         } else if (args[i] === '--max_contain' && i + 1 < args.length) {
           maxContain = parseInt(args[i + 1], 10);
           i++;
@@ -76,11 +74,11 @@ async function main() {
 
       // Check required arguments
       if (!imagePath || !outputPath) {
-        console.error('Usage: npm run extract -- --image_path <path> --output_path <path> [--visualize] [--max_contain <number>]');
+        console.error('Usage: npm run extract -- --image_path <path> --output_path <path> [--max_contain <number>]');
         process.exit(1);
       }
 
-      await processImageToGraph(imagePath, outputPath, maxContain, visualize);
+      await processImageToGraph(imagePath, outputPath, maxContain);
     }
   } catch (error: any) {
     console.error('Error:', error.message);
