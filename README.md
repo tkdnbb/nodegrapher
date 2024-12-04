@@ -66,20 +66,48 @@ npm run visualize -- --image_path img/example.jpg [--output_path visualization.j
 
 ### API Reference
 
-#### processImageToGraph(imagePath, outputPath, maxContainCount?, numX?)
+#### `processImageToGraph(imagePath: string, outputPath: string, maxContainCount?: number, numX?: number): Promise<GraphData | undefined>`
+Processes an image to extract a graph structure and saves it to a JSON file.
 
-Processes an image and extracts graph data from it.
+- `imagePath`: Path to the input image file
+- `outputPath`: Path where the graph data will be saved as JSON
+- `maxContainCount` (optional): Maximum containment value for graph processing (default: 1)
+- `numX` (optional): Number of nodes to generate in the x direction (default: 15)
 
-**Parameters:**
-- `imagePath` (string): Path to the input image file
-- `outputPath` (string): Path where the output JSON file will be saved
-- `maxContainCount` (number, optional): Maximum containment value for graph processing. Defaults to 1
-- `numX` (number, optional): Number of nodes to generate in the x direction for the road graph. Defaults to 15
+Returns a Promise that resolves to the graph data or undefined if processing fails.
 
-**Returns:**
-- Promise<GraphData | undefined>: Returns a promise that resolves to the graph data or undefined if processing fails
+#### `extractGraphFromImage(imagePath: string, distanceThreshold?: number, maxContainCount?: number, numX?: number): Promise<GraphData>`
+Extracts a graph structure directly from an image without saving to file.
 
-**GraphData Structure:**
+- `imagePath`: Path to the input image file
+- `distanceThreshold` (optional): Distance threshold for node connections (default: 10)
+- `maxContainCount` (optional): Maximum containment value for graph processing (default: 1)
+- `numX` (optional): Number of nodes to generate in the x direction (default: 15)
+
+Returns a Promise that resolves to the graph data.
+
+#### `removeTextFromImage(imagePath: string, outputPath: string): Promise<void>`
+Removes text from an image using OpenCV-based text detection.
+
+- `imagePath`: Path to the input image file
+- `outputPath`: Path where the processed image will be saved
+- Uses adaptive thresholding and contour detection to identify and remove text regions
+- Fills removed text areas with the surrounding background color
+
+Returns a Promise that resolves when the text removal is complete.
+
+#### `visualizeGraph(imagePath: string, graph: GraphData, outputPath: string): Promise<void>`
+Visualizes a graph structure on top of an image.
+
+- `imagePath`: Path to the input image file
+- `graph`: The graph data to visualize
+- `outputPath`: Path where the visualization will be saved
+
+Returns a Promise that resolves when the visualization is complete.
+
+### Types
+
+#### `GraphData`
 ```typescript
 interface GraphData {
   nodes: Node[];

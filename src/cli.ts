@@ -10,8 +10,8 @@ async function waitForOpenCV(): Promise<void> {
     if (cv && Object.keys(cv).length > 0) {
       resolve();
     } else {
-      // @ts-ignore
-      cv['onRuntimeInitialized'] = () => {
+      // @ts-expect-error OpenCV runtime initialization
+      cv['onRuntimeInitialized'] = (): void => {
         resolve();
       };
     }
