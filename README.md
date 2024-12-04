@@ -21,21 +21,35 @@ npm install nodegrapher
 ### Basic Usage
 
 ```typescript
-import { processImageToGraph } from 'nodegrapher';
+import { processImageToGraph, saveRoad, extractGraphFromImage, visualizeGraph } from 'nodegrapher';
 
-// Process an image and get graph data
+// Process an image and get the full graph data (including obstacles)
 const graphData = await processImageToGraph(
   'path/to/image.jpg',
   'output.json',
   1  // maxContainCount: controls the maximum containment count for graph processing
 );
 
-// To visualize a graph from an image
-import { extractGraphFromImage, visualizeGraph } from 'nodegrapher';
+// Generate and save a road graph (without obstacles)
+const roadGraph = await saveRoad(
+  'path/to/image.jpg',  // same input image
+  'road.json'          // output path (optional, defaults to "road.json")
+);
 
+// To visualize a graph from an image
 const graph = await extractGraphFromImage('path/to/image.jpg', 10, 1);
 await visualizeGraph('path/to/image.jpg', graph, 'visualization.jpg');
 ```
+
+### Function Differences
+
+- `processImageToGraph`: Extracts and saves the complete graph structure from an image, including all nodes and obstacles. This is useful when you need the full spatial data representation of the image.
+
+- `saveRoad`: Generates and saves a simplified road graph that focuses on navigable paths while excluding obstacles. This is ideal for applications like path planning where you only need the road network structure.
+
+Both functions process the same input image but produce different outputs based on their specific purposes:
+- Full graph (processImageToGraph): Contains all spatial data including obstacles
+- Road graph (saveRoad): Contains only the road network structure, optimized for navigation
 
 ### CLI Usage
 
