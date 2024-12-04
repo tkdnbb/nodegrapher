@@ -24,6 +24,7 @@ async function main() {
       let outputPath = '';
       let distanceThreshold = 10; // default value
       let maxContainCount = 1;  // default value
+      let numX = 15;  // default value
 
       // Parse command line arguments
       for (let i = 0; i < remainingArgs.length; i++) {
@@ -39,16 +40,19 @@ async function main() {
         } else if (remainingArgs[i] === '--max_contain' && i + 1 < remainingArgs.length) {
           maxContainCount = parseInt(remainingArgs[i + 1], 10);
           i++;
+        } else if (remainingArgs[i] === '--num_x' && i + 1 < remainingArgs.length) {
+          numX = parseInt(remainingArgs[i + 1], 10);
+          i++;
         }
       }
 
       if (!imagePath) {
-        console.error('Usage: npm run visualize -- --image_path <path> [--output_path <path>] [--distance_threshold <number>] [--max_contain <number>]');
+        console.error('Usage: npm run visualize -- --image_path <path> [--output_path <path>] [--distance_threshold <number>] [--max_contain <number>] [--num_x <number>]');
         process.exit(1);
       }
 
       // Extract graph from image and visualize it
-      const graph = await extractGraphFromImage(imagePath, distanceThreshold, maxContainCount);
+      const graph = await extractGraphFromImage(imagePath, distanceThreshold, maxContainCount, numX);
       const visualizedPath = await visualizeGraph(imagePath, graph, outputPath);
       console.log(`Graph visualization saved to: ${visualizedPath}`);
     } else {
