@@ -49,7 +49,6 @@
     "typescript": "^5.5.2"
   },
   "dependencies": {
-    "@techstark/opencv-js": "^4.7.0-release.1",
     "@tensorflow/tfjs-node": "^4.22.0",
     "@turf/turf": "^7.1.0",
     "canvas": "^2.11.2",

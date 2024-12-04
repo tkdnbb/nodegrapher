@@ -1,24 +1,11 @@
 import { processImageToGraph } from './utils/extractGraph.js';
-import * as cvjs from '@techstark/opencv-js';
-
-// Get the actual cv object
-const cv = (cvjs as any).default;
+import { cv } from 'opencv-wasm'
 
 /** Wait for OpenCV to load */
 async function waitForOpenCV(): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    try {
-      setTimeout(() => {
-        if (cv && Object.keys(cv).length > 0) {
-          // Log available methods
-          // console.log('Available OpenCV methods:', Object.keys(cv));
-          resolve();
-        } else {
-          reject(new Error('OpenCV failed to load'));
-        }
-      }, 1000); // Wait for 1 second
-    } catch (error) {
-      reject(error);
+  return new Promise<void>((resolve) => {
+    if (cv && Object.keys(cv).length > 0) {
+      resolve();
     }
   });
 }
