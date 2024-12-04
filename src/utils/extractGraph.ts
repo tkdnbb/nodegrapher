@@ -170,20 +170,21 @@ export async function extractGraphFromImage(
  * 2. Saves the graph data to a JSON file
  * 3. Generates and saves an additional road graph based on the extracted data
  *
- * @param {string} imagePath - The path to the input image file to process
- * @param {string} outputPath - The path where the output JSON file will be saved
- * @param maxContainCount - Maximum number of polygons that can contain the point (default: 1)
- * @returns {Promise<GraphData | undefined>} A promise that resolves to the road graph data if successful,
- *                                         or undefined if the node list is empty
- * @throws {Error} If the image processing fails for any reason
- *
+ * @param imagePath Path to the input image file to process
+ * @param outputPath Path where the output JSON file will be saved
+ * @param maxContainCount Maximum number of polygons that can contain the point (default: 1)
+ * @param numX Number of nodes to generate in the x direction for the road graph (default: 15)
+ * @returns A promise that resolves to the road graph data if successful, or undefined if the node list is empty
+ * @throws Error If the image processing fails for any reason
+ * 
  * @example
  * ```typescript
  * try {
  *   const graphData = await processImageToGraph(
  *     'input.jpg',
  *     'output.json',
- *     1  // maxContainCount
+ *     1,  // maxContainCount
+ *     15  // numX: number of nodes in x direction
  *   );
  *   console.log('Graph data:', graphData);
  * } catch (error) {
@@ -194,7 +195,8 @@ export async function extractGraphFromImage(
 export async function processImageToGraph(
   imagePath: string,
   outputPath: string,
-  maxContainCount = 1,
+  maxContainCount: number = 1,
+  numX: number = 15,
 ): Promise<GraphData | undefined> {
   try {
     // Extract graph from image
@@ -207,7 +209,7 @@ export async function processImageToGraph(
 
     // Generate and save road graph
     if (!graph.nodesList) return;
-    const newNodes = genNodes(graph.nodesList, 15);
+    const newNodes = genNodes(graph.nodesList, numX);
     const filteredNewNodes = filterNewNodes(
       newNodes,
       graph.nodesList,

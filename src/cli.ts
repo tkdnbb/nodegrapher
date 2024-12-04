@@ -55,7 +55,6 @@ async function main() {
       // Handle extract command (default)
       let imagePath = '';
       let outputPath = '';
-      let visualize = false;
       let maxContain = 1;
 
       // Parse command line arguments

@@ -64,7 +64,7 @@ npm run visualize -- --image_path img/example.jpg [--output_path visualization.j
 
 ### API Reference
 
-#### processImageToGraph(imagePath, outputPath, maxContainCount?)
+#### processImageToGraph(imagePath, outputPath, maxContainCount?, numX?)
 
 Processes an image and extracts graph data from it.
 
@@ -72,6 +72,7 @@ Processes an image and extracts graph data from it.
 - `imagePath` (string): Path to the input image file
 - `outputPath` (string): Path where the output JSON file will be saved
 - `maxContainCount` (number, optional): Maximum containment value for graph processing. Defaults to 1
+- `numX` (number, optional): Number of nodes to generate in the x direction for the road graph. Defaults to 15
 
 **Returns:**
 - Promise<GraphData | undefined>: Returns a promise that resolves to the graph data or undefined if processing fails
