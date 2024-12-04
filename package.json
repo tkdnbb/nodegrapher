@@ -1,6 +1,6 @@
 {
   "name": "nodegrapher",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Transform images into spatial graph data with Node.js and TypeScript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,8 +16,9 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "extract": "tsx src/cli.ts",
-    "visualize": "tsx src/cli.ts visualize"
+    "extract": "tsx src/cli.ts extract",
+    "visualize": "tsx src/cli.ts visualize",
+    "remove-text": "tsx src/cli.ts remove-text"
   },
   "repository": {
     "type": "git",

@@ -1,17 +1,24 @@
 import { extractGraphFromImage, processImageToGraph } from './utils/extractGraph.js';
-import { cv } from 'opencv-wasm'
+import { cv } from 'opencv-wasm';
 import { visualizeGraph } from './utils/graphUtils.js';
+import * as path from 'path';
+import { removeTextFromImage } from './utils/textRemoval.js';
 
 /** Wait for OpenCV to load */
 async function waitForOpenCV(): Promise<void> {
   return new Promise<void>((resolve) => {
     if (cv && Object.keys(cv).length > 0) {
       resolve();
+    } else {
+      // @ts-ignore
+      cv['onRuntimeInitialized'] = () => {
+        resolve();
+      };
     }
   });
 }
 
-async function main() {
+async function main(): Promise<void> {
   try {
     await waitForOpenCV();
     const args = process.argv.slice(2);
@@ -55,6 +62,37 @@ async function main() {
       const graph = await extractGraphFromImage(imagePath, distanceThreshold, maxContainCount, numX);
       const visualizedPath = await visualizeGraph(imagePath, graph, outputPath);
       console.log(`Graph visualization saved to: ${visualizedPath}`);
+    } else if (command === 'remove-text') {
+      // Handle text removal command
+      const remainingArgs = args.slice(1);
+      let imagePath = '';
+      let outputPath = '';
+
+      // Parse command line arguments
+      for (let i = 0; i < remainingArgs.length; i++) {
+        if (remainingArgs[i] === '--image_path' && i + 1 < remainingArgs.length) {
+          imagePath = remainingArgs[i + 1];
+          i++;
+        } else if (remainingArgs[i] === '--output_path' && i + 1 < remainingArgs.length) {
+          outputPath = remainingArgs[i + 1];
+          i++;
+        }
+      }
+
+      if (!imagePath) {
+        console.error('Usage: npm run remove-text -- --image_path <path> [--output_path <path>]');
+        process.exit(1);
+      }
+
+      // If output path is not provided, create one based on input path
+      if (!outputPath) {
+        const ext = path.extname(imagePath);
+        outputPath = imagePath.replace(ext, '_no_text' + ext);
+      }
+
+      // Remove text from image
+      await removeTextFromImage(imagePath, outputPath);
+      console.log(`Text removal complete. Result saved to: ${outputPath}`);
     } else {
       // Handle extract command (default)
       let imagePath = '';

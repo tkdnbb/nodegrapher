@@ -1,4 +1,4 @@
-import { processImage } from './src/utils/textRemoval.js';
+import { removeTextFromImage } from './src/utils/textRemoval.js';
 
 async function main(): Promise<void> {
   try {
@@ -15,7 +15,7 @@ async function main(): Promise<void> {
     console.log(`Input: ${inputPath}`);
     console.log(`Output: ${outputPath}`);
 
-    await processImage(inputPath, outputPath);
+    await removeTextFromImage(inputPath, outputPath);
 
   } catch (error) {
     console.error('Error:', error instanceof Error ? error.message : error);

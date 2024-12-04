@@ -11,7 +11,7 @@ import { createCanvas, loadImage } from 'canvas';
 type OpenCVMat = any; // opencv-wasm doesn't export type definitions
 
 // Wait for OpenCV to be ready
-async function waitForOpenCV(): Promise<void> {
+export async function waitForOpenCV(): Promise<void> {
   return new Promise<void>((resolve) => {
     if (cv && Object.keys(cv).length > 0) {
       resolve();
