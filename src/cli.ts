@@ -1,4 +1,4 @@
-import { extractGraphFromImage, processImageToGraph } from './utils/extractGraph.js';
+import { extractGraphFromImage, processImageToGraph, saveRoad } from './utils/extractGraph.js';
 import { cv } from 'opencv-wasm';
 import { visualizeGraph } from './utils/graphUtils.js';
 import * as path from 'path';
@@ -93,6 +93,42 @@ async function main(): Promise<void> {
       // Remove text from image
       await removeTextFromImage(imagePath, outputPath);
       console.log(`Text removal complete. Result saved to: ${outputPath}`);
+    } else if (command === 'extract-road') {
+      // Handle extract-road command
+      const remainingArgs = args.slice(1);
+      let imagePath = '';
+      let outputPath = 'road.json'; // default value
+      let maxContainCount = 1;  // default value
+      let numX = 15;  // default value
+
+      // Parse command line arguments
+      for (let i = 0; i < remainingArgs.length; i++) {
+        if (remainingArgs[i] === '--image_path' && i + 1 < remainingArgs.length) {
+          imagePath = remainingArgs[i + 1];
+          i++;
+        } else if (remainingArgs[i] === '--output_path' && i + 1 < remainingArgs.length) {
+          outputPath = remainingArgs[i + 1];
+          i++;
+        } else if (remainingArgs[i] === '--max_contain' && i + 1 < remainingArgs.length) {
+          maxContainCount = parseInt(remainingArgs[i + 1], 10);
+          i++;
+        } else if (remainingArgs[i] === '--num_x' && i + 1 < remainingArgs.length) {
+          numX = parseInt(remainingArgs[i + 1], 10);
+          i++;
+        }
+      }
+
+      if (!imagePath) {
+        throw new Error('Please provide an image path using --image_path');
+      }
+
+      console.log('Extracting road graph...');
+      const roadGraph = await saveRoad(imagePath, outputPath, maxContainCount, numX);
+      if (roadGraph) {
+        console.log('Road graph extraction completed successfully!');
+      } else {
+        console.log('No road graph could be generated (empty nodesList)');
+      }
     } else {
       // Handle extract command (default)
       let imagePath = '';

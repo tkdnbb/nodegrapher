@@ -18,7 +18,8 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "extract": "tsx src/cli.ts extract",
     "visualize": "tsx src/cli.ts visualize",
-    "remove-text": "tsx src/cli.ts remove-text"
+    "remove-text": "tsx src/cli.ts remove-text",
+    "extract-road": "tsx src/cli.ts extract-road"
   },
   "repository": {
     "type": "git",
