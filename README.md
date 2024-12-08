@@ -160,6 +160,20 @@ To set up the development environment:
 3. Run tests: `npm test`
 4. Run linter: `npm run lint`
 
+### Neovim Plugin
+
+NodeGrapher also supports converting JSON graph data to ASCII representation using a Neovim plugin. Visit [NodeGrapher.nvim](https://github.com/tkdnbb/node-monorepo/tree/main/packages/nodegrapher.nvim) for more information.
+
+#### Example Usage
+
+Using the `NodeGrapherToAscii` command in Neovim:
+
+![NodeGrapher Command](img/docs/nodegrapher.nvim_cmd.png)
+
+Displayed graph window:
+
+![NodeGrapher Window](img/docs/nodegrapher.nvim_window.png)
+
 ## License
 
 MIT License - see LICENSE file for details
