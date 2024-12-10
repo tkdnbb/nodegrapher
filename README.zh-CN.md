@@ -62,7 +62,7 @@ NodeGrapher 还支持通过 Neovim 插件将 JSON 图数据转换为 ASCII 字�
 
 - `imagePath`: 输入图像文件的路径
 - `outputPath`: 图数据将保存为 JSON 的路径
-- `maxContainCount` (可选): 图处理的最大包含值（默认: 1）
+- `maxContainCount` (可选): 图处理的最大包含值（默认: 0）
 - `numX` (可选): 在 x 方向生成的节点数（默认: 15）
 
 返回一个 Promise，解析为图数据。
@@ -72,7 +72,7 @@ NodeGrapher 还支持通过 Neovim 插件将 JSON 图数据转换为 ASCII 字�
 
 - `imagePath`: 输入图像文件的路径
 - `outputPath` (可选): 道路图将保存为 JSON 的路径（默认: "road.json"）
-- `maxContainCount` (可选): 图处理的最大包含值（默认: 1）
+- `maxContainCount` (可选): 图处理的最大包含值（默认: 0）
 - `numX` (可选): 在 x 方向生成的节点数（默认: 15）
 
 返回一个 Promise，解析为道路图数据，或在无法生成道路图时解析为 undefined。
@@ -82,7 +82,7 @@ NodeGrapher 还支持通过 Neovim 插件将 JSON 图数据转换为 ASCII 字�
 
 - `imagePath`: 输入图像文件的路径
 - `distanceThreshold` (可选): 节点连接的距离阈值（默认: 10）
-- `maxContainCount` (可选): 图处理的最大包含值（默认: 1）
+- `maxContainCount` (可选): 图处理的最大包含值（默认: 0）
 - `numX` (可选): 在 x 方向生成的节点数（默认: 15）
 
 返回一个 Promise，解析为图数据。

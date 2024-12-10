@@ -31,7 +31,7 @@ async function main(): Promise<void> {
       let imagePath = '';
       let outputPath = '';
       let distanceThreshold = 10; // default value
-      let maxContainCount = 1;  // default value
+      let maxContainCount = 0;  // default value
       let numX = 15;  // default value
 
       // Parse command line arguments
@@ -99,7 +99,7 @@ async function main(): Promise<void> {
       const remainingArgs = args.slice(1);
       let imagePath = '';
       let outputPath = 'road.json'; // default value
-      let maxContainCount = 1;  // default value
+      let maxContainCount = 0;  // default value
       let numX = 15;  // default value
 
       // Parse command line arguments
@@ -134,7 +134,7 @@ async function main(): Promise<void> {
       // Handle extract command (default)
       let imagePath = '';
       let outputPath = '';
-      let maxContain = 1;
+      let maxContain = 0;
       let numX = 15;  // default value
 
       // Parse command line arguments

@@ -51,14 +51,14 @@ export function standardizePolygon(polygon: number[]): number[] {
  * @param pointDict - The point to check, with keys "x" and "y", e.g., {"x": 1, "y": 1}
  * @param nodesList - List of node coordinates, e.g., [{"x": 1, "y": 1}, {"x": 4, "y": 1}, ...]
  * @param edgesList - List of edges as pairs of node indices, e.g., [[0, 1], [1, 2], ...]
- * @param maxContainCount - Maximum number of polygons that can contain the point (default: 1)
+ * @param maxContainCount - Maximum number of polygons that can contain the point (default: 0)
  * @returns True if the point is enclosed, False otherwise
  */
 export function isPointEnclosedByEdges(
   pointDict: Point2D,
   nodesList: Point2D[],
   edgesList: Edge[],
-  maxContainCount: number = 1
+  maxContainCount: number = 0
 ): boolean {
   // Extract the x and y coordinates from pointDict
   const { x, y } = pointDict;
@@ -91,7 +91,7 @@ export function isPointEnclosedByEdges(
     const turfPolygon = turf.polygon([polygonCoords]);
     if (turf.booleanPointInPolygon(point, turfPolygon)) {
       containCount++;
-      if (containCount === maxContainCount) {
+      if (containCount > maxContainCount) {
         return true;
       }
     }

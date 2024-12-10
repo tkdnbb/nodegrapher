@@ -14,14 +14,14 @@ export type Line = [[number, number, number, number]]; // [[x1, y1, x2, y2]]
  * @param newNodes - List of new nodes, e.g., [{"x": 2, "y": 2}, ...].
  * @param nodesList - List of existing nodes.
  * @param edgesList - List of edges as pairs of node indices.
- * @param maxContainCount - Maximum number of polygons that can contain the point (default: 1)
+ * @param maxContainCount - Maximum number of polygons that can contain the point (default: 0)
  * @returns Filtered list of new nodes.
  */
 export function filterRoadNodes(
   newNodes: Point2D[],
   nodesList: Point2D[],
   edgesList: Edge[],
-  maxContainCount = 1
+  maxContainCount = 0
 ): Point2D[] {
   const filteredNodes: Point2D[] = [];
 

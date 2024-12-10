@@ -11,7 +11,7 @@ import { filterRoadNodes } from './utils/filters.js';
  *
  * @param imagePath Path to the input image file to process
  * @param outputPath Path where the output JSON file will be saved
- * @param maxContainCount Maximum number of polygons that can contain the point (default: 1)
+ * @param maxContainCount Maximum number of polygons that can contain the point (default: 0)
  * @param numX Number of nodes to generate in the x direction for the road graph (default: 15)
  * @returns A promise that resolves to the graph data
  * @throws Error If the image processing fails for any reason
@@ -19,7 +19,7 @@ import { filterRoadNodes } from './utils/filters.js';
 export async function processImageToGraph(
   imagePath: string,
   outputPath: string,
-  maxContainCount: number = 1,
+  maxContainCount: number = 0,
   numX: number = 15,
 ): Promise<any> {
   try {
@@ -41,7 +41,7 @@ export async function processImageToGraph(
  * 
  * @param imagePath Path to the input image file to process
  * @param outputPath Path where the road graph JSON file will be saved (default: "road.json")
- * @param maxContainCount Maximum number of polygons that can contain the point (default: 1)
+ * @param maxContainCount Maximum number of polygons that can contain the point (default: 0)
  * @param numX Number of nodes to generate in the x direction for the road graph (default: 15)
  * @returns A promise that resolves to the road graph data if successful, or undefined if the node list is empty
  * @throws Error If the road graph generation fails for any reason

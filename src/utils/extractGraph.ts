@@ -43,14 +43,14 @@ function fromTuple(point: Point2DTuple): Point2D {
  * Extract graph nodes and edges from an image, merging close nodes.
  * @param imagePath Path to the input image
  * @param distanceThreshold Minimum distance between nodes to consider them as the same node
- * @param maxContainCount Maximum number of polygons that can contain the point (default: 1)
+ * @param maxContainCount Maximum number of polygons that can contain the point (default: 0)
  * @param numX Number of nodes to generate in the x direction (default: 15)
  * @returns A dictionary containing nodes and edges
  */
 export async function extractGraphFromImage(
   imagePath: string,
   distanceThreshold: number = 10,
-  maxContainCount = 1,
+  maxContainCount = 0,
   numX = 15
 ): Promise<GraphData> {
   let image: OpenCVMat | null = null;

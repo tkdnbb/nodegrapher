@@ -73,20 +73,20 @@ npm run visualize -- --image_path img/example.jpg [--output_path visualization.j
 **Extract Command Arguments:**
 - `--image_path`: Path to the input image file
 - `--output_path`: Path where the output JSON file will be saved
-- `--max_contain` (optional): Maximum containment value for graph processing (default: 1)
+- `--max_contain` (optional): Maximum containment value for graph processing (default: 0)
 - `--num_x` (optional): Number of nodes to generate in the x direction for the road graph (default: 15)
 
 **Extract Road Command Arguments:**
 - `--image_path`: Path to the input image file
 - `--output_path` (optional): Path where the road graph JSON file will be saved (default: road.json)
-- `--max_contain` (optional): Maximum containment value for graph processing (default: 1)
+- `--max_contain` (optional): Maximum containment value for graph processing (default: 0)
 - `--num_x` (optional): Number of nodes to generate in the x direction for the road graph (default: 15)
 
 **Visualize Command Arguments:**
 - `--image_path`: Path to the input image file
 - `--output_path` (optional): Path where the visualization will be saved. If not provided, saves next to input with '_visualized' suffix
 - `--distance_threshold` (optional): Distance threshold for node connections (default: 10)
-- `--max_contain` (optional): Maximum containment value for graph processing (default: 1)
+- `--max_contain` (optional): Maximum containment value for graph processing (default: 0)
 - `--num_x` (optional): Number of nodes to generate in the x direction for the road graph (default: 15)
 
 ### API Reference
@@ -96,7 +96,7 @@ Processes an image to extract a graph structure and saves it to a JSON file.
 
 - `imagePath`: Path to the input image file
 - `outputPath`: Path where the graph data will be saved as JSON
-- `maxContainCount` (optional): Maximum containment value for graph processing (default: 1)
+- `maxContainCount` (optional): Maximum containment value for graph processing (default: 0)
 - `numX` (optional): Number of nodes to generate in the x direction (default: 15)
 
 Returns a Promise that resolves to the graph data.
@@ -106,7 +106,7 @@ Generates and saves a road graph based on the provided image.
 
 - `imagePath`: Path to the input image file
 - `outputPath` (optional): Path where the road graph will be saved as JSON (default: "road.json")
-- `maxContainCount` (optional): Maximum containment value for graph processing (default: 1)
+- `maxContainCount` (optional): Maximum containment value for graph processing (default: 0)
 - `numX` (optional): Number of nodes to generate in the x direction (default: 15)
 
 Returns a Promise that resolves to the road graph data, or undefined if no road graph could be generated.
@@ -116,7 +116,7 @@ Extracts a graph structure directly from an image without saving to file.
 
 - `imagePath`: Path to the input image file
 - `distanceThreshold` (optional): Distance threshold for node connections (default: 10)
-- `maxContainCount` (optional): Maximum containment value for graph processing (default: 1)
+- `maxContainCount` (optional): Maximum containment value for graph processing (default: 0)
 - `numX` (optional): Number of nodes to generate in the x direction (default: 15)
 
 Returns a Promise that resolves to the graph data.
