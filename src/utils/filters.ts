@@ -17,7 +17,7 @@ export type Line = [[number, number, number, number]]; // [[x1, y1, x2, y2]]
  * @param maxContainCount - Maximum number of polygons that can contain the point (default: 1)
  * @returns Filtered list of new nodes.
  */
-export function filterNewNodes(
+export function filterRoadNodes(
   newNodes: Point2D[],
   nodesList: Point2D[],
   edgesList: Edge[],

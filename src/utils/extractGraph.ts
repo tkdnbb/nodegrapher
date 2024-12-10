@@ -1,7 +1,7 @@
 import { cv } from 'opencv-wasm';
 import { Point2D } from './types.js';
 import { mergeClosePoints } from './pointUtils.js';
-import { deduplicateLines, Edge, filterNewNodes, Line } from './filters.js';
+import { deduplicateLines, Edge, filterRoadNodes, Line } from './filters.js';
 import { genNodes } from './roadGen.js';
 import { createCanvas, loadImage } from 'canvas';
 
@@ -146,7 +146,7 @@ export async function extractGraphFromImage(
     const newNodes = genNodes(mergedPointsObj, numX);
 
     // Step 7: Filter nodes
-    const filteredNodes = filterNewNodes(newNodes, mergedPointsObj, updatedLines, maxContainCount);
+    const filteredNodes = filterRoadNodes(newNodes, mergedPointsObj, updatedLines, maxContainCount);
 
     return {
       nodesList: mergedPointsObj,

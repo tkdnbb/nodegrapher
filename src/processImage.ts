@@ -2,7 +2,7 @@ import { extractGraphFromImage } from './utils/extractGraph.js';
 import { genLines } from './utils/lineUtils.js';
 import { genNodes } from './utils/roadGen.js';
 import { saveJson } from './utils/saveJson.js';
-import { filterNewNodes } from './utils/filters.js';
+import { filterRoadNodes } from './utils/filters.js';
 
 /**
  * Processes an image and extracts graph data from it. This function performs the following steps:
@@ -59,7 +59,7 @@ export async function saveRoad(
     }
 
     const newNodes = genNodes(graphData.nodesList, numX);
-    const filteredNodes = filterNewNodes(newNodes, graphData.nodesList, graphData.lines, maxContainCount);
+    const filteredNodes = filterRoadNodes(newNodes, graphData.nodesList, graphData.lines, maxContainCount);
     const lines = genLines(filteredNodes, newNodes);
 
     const roadData = {
