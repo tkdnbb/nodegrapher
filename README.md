@@ -51,6 +51,12 @@ Both functions process the same input image but produce different outputs based 
 - Full graph (processImageToGraph): Contains all spatial data including obstacles
 - Road graph (saveRoad): Contains only the road network structure, optimized for navigation
 
+- `extractGraphFromImage`: Extracts a graph structure directly from an image without saving to file. This is useful when you need to extract the graph structure for further processing or analysis.
+
+- `filterRoadNodes`: Filters out new nodes that are enclosed by any polygons formed by edges_list.
+
+![Before and After Filtering](./img/before_after.png)
+
 ### CLI Usage
 
 The package provides the following CLI commands:

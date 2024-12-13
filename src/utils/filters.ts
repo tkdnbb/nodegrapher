@@ -1,6 +1,6 @@
 import { isPointEnclosedByEdges } from './geometryUtils.js';
 
-interface Point2D {
+export interface Point2D {
   x: number;
   y: number;
 }

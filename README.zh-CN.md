@@ -55,6 +55,31 @@ NodeGrapher 还支持通过 Neovim 插件将 JSON 图数据转换为 ASCII 字�
 
 ![NodeGrapher Window](img/docs/nodegrapher.nvim_window.png)
 
+## 功能说明与差异
+
+### `processImageToGraph`
+从图像中提取并保存完整的图结构，包括所有节点和障碍物。当需要图像的完整空间数据表示时，此函数非常有用。
+
+### `saveRoad`
+生成并保存简化的道路图，专注于可导航路径，同时排除障碍物。这非常适用于仅需要道路网络结构的应用场景，例如路径规划。
+
+### **功能差异**
+两者处理相同的输入图像，但根据特定用途生成不同的输出：
+- **完整图（`processImageToGraph`）**：包含所有空间数据，包括障碍物。
+- **道路图（`saveRoad`）**：仅包含道路网络结构，为导航优化。
+
+---
+
+### `extractGraphFromImage`
+直接从图像中提取图结构，而不保存到文件。当需要进一步处理或分析图结构时，此函数非常有用。
+
+---
+
+### `filterRoadNodes`
+过滤掉由 `edges_list` 形成的任意多边形内部的新节点。
+
+![Before and After Filtering](./img/before_after.png)
+
 ## API 参考
 
 #### `processImageToGraph(imagePath: string, outputPath: string, maxContainCount?: number, numX?: number): Promise<GraphData | undefined>`
